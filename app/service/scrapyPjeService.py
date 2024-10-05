@@ -138,6 +138,9 @@ def search_process_number(process_number):
                     print(f"Link encontrado: {link_html}")
                     driver.execute_script("arguments[0].click();", link)
 
+                    # Mantém referência da aba original
+                    original_tab = driver.current_window_handle
+
                     # Alterna para a nova aba
                     driver.switch_to.window(driver.window_handles[-1])
 
@@ -159,7 +162,7 @@ def search_process_number(process_number):
                     driver.close()
 
                     # Alterna de volta para a aba original
-                    driver.switch_to.window(driver.window_handles[0])
+                    driver.switch_to.window(original_tab)
             else:
                 print("Nenhum link encontrado no painel de documentos.")
         except Exception as panel_ex:
@@ -170,6 +173,7 @@ def search_process_number(process_number):
         print("Dados da página de consulta pública extraídos com sucesso")
 
         return soup.prettify()  # Retorne uma string do HTML formatado (ou processe conforme necessário)
+
     except Exception as e:
         print(f"Erro durante o download do número do processo: {e}")
     finally:
