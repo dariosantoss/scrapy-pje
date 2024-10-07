@@ -43,6 +43,9 @@ def read_excel():
 
     # Iterar sobre cada valor da primeira coluna e imprimir
     for value in first_column:
+        if pd.isna(value):
+            print("Número do processo é NaN. Pulando para o próximo.")
+            continue
         print(f"Buscando o número do processo: {value}")
         search_process_number(value)
 
@@ -67,7 +70,7 @@ def initiate_webdriver() -> WebDriver:
     chrome_options.add_experimental_option('prefs', chrome_prefs)
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    # chrome_options.add_argument('--headless')  # Execute Chrome em modo headless, se necessário
+    chrome_options.add_argument('--headless')  # Execute Chrome em modo headless, se necessário
     chrome_options.add_argument('--disable-gpu')  # Desativa a GPU, pode ser necessário no Docker
     chrome_options.add_argument('--remote-debugging-port=9222')  # Permite o Chrome DevTools
     # Inicializa o WebDriver
